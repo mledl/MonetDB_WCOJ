@@ -1,0 +1,5 @@
+Repeats: 3
+MonetDB MAL
+Benchmarking: select count(*) from r natural join s natural join t natural join u natural join v natural join w;
+90000;134514
+

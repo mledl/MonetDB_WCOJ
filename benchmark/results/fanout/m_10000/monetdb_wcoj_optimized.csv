@@ -1,0 +1,15 @@
+select count(*) from r natural join s natural join t;
+r;1
+10000;1;3076
+10000;3;8966
+10000;5;11997
+select count(*) from r natural join s natural join t natural join u;
+r;1
+10000;1;6668
+10000;3;21972
+10000;5;35412
+select count(*) from r natural join s natural join t natural join u natural join v natural join w;
+r;1
+10000;1;13351
+10000;3;40879
+10000;5;68095

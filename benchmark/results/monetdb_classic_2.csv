@@ -1,0 +1,4 @@
+select count(*) from r natural join s natural join t natural join u natural join v natural join w;
+r;1
+90000;134514
+r;2

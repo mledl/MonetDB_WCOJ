@@ -1,0 +1,36 @@
+statement ok
+CREATE TABLE R ( A varchar(10), B varchar(10) )
+
+statement ok
+CREATE TABLE S ( B varchar(10), C varchar(10) )
+
+statement ok
+CREATE TABLE T ( A varchar(10), C varchar(10) )
+
+statement ok
+insert into R values( 'a0', 'b0' )
+
+statement ok
+insert into R values( 'a1', 'b0' )
+
+statement ok
+insert into S values( 'b0', 'c0' )
+
+statement ok
+insert into S values( 'b0', 'c1' )
+
+statement ok
+insert into T values( 'a0', 'c0' )
+
+statement ok
+insert into T values( 'a1', 'c1' )
+
+query TTT nosort
+select * from R natural join S natural join T;
+----
+a0
+b0
+c0
+a1
+b0
+c1

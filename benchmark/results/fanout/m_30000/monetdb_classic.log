@@ -1,0 +1,73 @@
+Repeats: 1
+MonetDB MAL
+Benchmarking: select count(*) from r natural join s natural join t;
++-------+
+| %1    |
++=======+
+| 44999 |
++-------+
+1 tuple
+30000;1;24193
++--------+
+| %1     |
++========+
+| 404947 |
++--------+
+1 tuple
+30000;3;77794
++---------+
+| %1      |
++=========+
+| 1124751 |
++---------+
+1 tuple
+30000;5;276757
+
+MonetDB MAL
+Benchmarking: select count(*) from r natural join s natural join t natural join u;
++-------+
+| %1    |
++=======+
+| 39998 |
++-------+
+1 tuple
+30000;1;56607
++--------+
+| %1     |
++========+
+| 120010 |
++--------+
+1 tuple
+30000;3;230480
++--------+
+| %1     |
++========+
+| 200046 |
++--------+
+1 tuple
+30000;5;447987
+
+MonetDB MAL
+Benchmarking: select count(*) from r natural join s natural join t natural join u natural join v natural join w;
++-------+
+| %1    |
++=======+
+| 35996 |
++-------+
+1 tuple
+30000;1;139465
++--------+
+| %1     |
++========+
+| 107986 |
++--------+
+1 tuple
+30000;3;619577
++--------+
+| %1     |
++========+
+| 179976 |
++--------+
+1 tuple
+30000;5;1088124
+

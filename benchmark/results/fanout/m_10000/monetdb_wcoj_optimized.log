@@ -1,0 +1,73 @@
+Repeats: 1
+WCOJ MAL
+Benchmarking: select count(*) from r natural join s natural join t;
++-------+
+| %1    |
++=======+
+| 14999 |
++-------+
+1 tuple
+10000;1;3076
++--------+
+| %1     |
++========+
+| 134947 |
++--------+
+1 tuple
+10000;3;8966
++--------+
+| %1     |
++========+
+| 374751 |
++--------+
+1 tuple
+10000;5;11997
+
+WCOJ MAL
+Benchmarking: select count(*) from r natural join s natural join t natural join u;
++-------+
+| %1    |
++=======+
+| 13330 |
++-------+
+1 tuple
+10000;1;6668
++-------+
+| %1    |
++=======+
+| 40006 |
++-------+
+1 tuple
+10000;3;21972
++-------+
+| %1    |
++=======+
+| 66706 |
++-------+
+1 tuple
+10000;5;35412
+
+WCOJ MAL
+Benchmarking: select count(*) from r natural join s natural join t natural join u natural join v natural join w;
++-------+
+| %1    |
++=======+
+| 11996 |
++-------+
+1 tuple
+10000;1;13351
++-------+
+| %1    |
++=======+
+| 35986 |
++-------+
+1 tuple
+10000;3;40879
++-------+
+| %1    |
++=======+
+| 59976 |
++-------+
+1 tuple
+10000;5;68095
+

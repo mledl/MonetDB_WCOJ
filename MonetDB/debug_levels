@@ -1,0 +1,4 @@
+call logging.setlayerlevel('SQL_ALL', 'DEBUG');
+
+call logging.setlayerlevel('MAL_ALL', 'DEBUG');
+

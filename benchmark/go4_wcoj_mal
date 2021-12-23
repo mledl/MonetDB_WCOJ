@@ -1,0 +1,118 @@
+sqlmvc:int := sql.mvc();                                                                                                                               
+tidR:bat[:oid] := sql.tid(sqlmvc:int, "sys":str, "r":str);                                                                                 
+bindRA:bat[:str] := sql.bind(sqlmvc:int, "sys":str, "r":str, "a":str, 0:int);                                                          
+bindRB:bat[:str] := sql.bind(sqlmvc:int, "sys":str, "r":str, "b":str, 0:int);                                                        
+bindRC:bat[:str] := sql.bind(sqlmvc:int, "sys":str, "r":str, "c":str, 0:int);                                                        
+projRA:bat[:str] := algebra.projection(tidR:bat[:oid], bindRA:bat[:str]);                                                      
+tidT:bat[:oid] := sql.tid(sqlmvc:int, "sys":str, "t":str);                                                                               
+bindTA:bat[:str] := sql.bind(sqlmvc:int, "sys":str, "t":str, "a":str, 0:int);                                                        
+bindTC:bat[:str] := sql.bind(sqlmvc:int, "sys":str, "t":str, "c":str, 0:int);                                                        
+bindTD:bat[:str] := sql.bind(sqlmvc:int, "sys":str, "t":str, "d":str, 0:int);                                                        
+projTA:bat[:str] := algebra.projection(tidT:bat[:oid], bindTA:bat[:str]);                                                  
+tidS:bat[:oid] := sql.tid(sqlmvc:int, "sys":str, "s":str);                                                                              
+bindSB:bat[:str] := sql.bind(sqlmvc:int, "sys":str, "s":str, "b":str, 0:int);                                                       
+bindSC:bat[:str] := sql.bind(sqlmvc:int, "sys":str, "s":str, "c":str, 0:int);                                                       
+bindSD:bat[:str] := sql.bind(sqlmvc:int, "sys":str, "s":str, "d":str, 0:int);                                                       
+projSB:bat[:str] := algebra.projection(tidS:bat[:oid], bindSB:bat[:str]);                                                  
+tidU:bat[:oid] := sql.tid(sqlmvc:int, "sys":str, "u":str);                                                                              
+bindUA:bat[:str] := sql.bind(sqlmvc:int, "sys":str, "u":str, "a":str, 0:int);                                                       
+bindUB:bat[:str] := sql.bind(sqlmvc:int, "sys":str, "u":str, "b":str, 0:int);                                                       
+bindUD:bat[:str] := sql.bind(sqlmvc:int, "sys":str, "u":str, "d":str, 0:int);                                                       
+projUA:bat[:str] := algebra.projection(tidU:bat[:oid], bindUA:bat[:str]);
+
+a:bat[:str] := bat.new(nil:str);                                                                                                           
+b:bat[:str] := bat.new(nil:str);                                                                                                           
+tmpB:bat[:str] := bat.new(nil:str);                                                                                                           
+c:bat[:str] := bat.new(nil:str);                                                                                                           
+tmpC:bat[:str] := bat.new(nil:str);                                                                                                           
+d:bat[:str] := bat.new(nil:str);
+
+distA:bat[:str] := bat.new(nil:str);
+distB:bat[:str] := bat.new(nil:str);
+distC:bat[:str] := bat.new(nil:str);
+
+C_97:bat[:oid] := algebra.intersect(projRA:bat[:str], projTA:bat[:str], nil:bat[:oid], nil:bat[:oid], false:bit, false:bit, nil:lng);            
+X_103:bat[:str] := algebra.projection(C_97:bat[:oid], projRA:bat[:str]);                                                                              
+C_104:bat[:oid] := algebra.intersect(projUA:bat[:str], X_103:bat[:str], nil:bat[:oid], nil:bat[:oid], false:bit, false:bit, nil:lng);        
+X_105:bat[:str] := algebra.projection(C_104:bat[:oid], projUA:bat[:str]);                                             
+(X_106:bat[:oid], C_107:bat[:oid]) := group.groupdone(X_105:bat[:str]);                                         
+distA:bat[:str] := algebra.projection(C_107:bat[:oid], X_105:bat[:str]);                                           
+                                                                                                                                
+barrier (X_111:oid, X_112:str) := iterator.new(distA:bat[:str]);                                                            
+	X_113:bat[:str] := bat.new(nil:str);                                                                                                        
+	tupleA:bat[:str] := bat.append(X_113:bat[:str], X_112:str, true:bit);
+	
+	X_116:bat[:oid] := algebra.intersect(projRA:bat[:str], tupleA:bat[:str], nil:bat[:oid], nil:bat[:oid], false:bit, true:bit, nil:lng);         
+	projSemiRB1:bat[:str] := algebra.projectionpath(X_116:bat[:oid], tidR:bat[:oid], bindRB:bat[:str]);                                             
+	X_120:bat[:oid] := algebra.intersect(projTA:bat[:str], tupleA:bat[:str], nil:bat[:oid], nil:bat[:oid], false:bit, true:bit, nil:lng);         
+	projSemiTC1:bat[:str] := algebra.projectionpath(X_120:bat[:oid], tidT:bat[:oid], bindTC:bat[:str]);                                           
+	X_124:bat[:oid] := algebra.intersect(projUA:bat[:str], tupleA:bat[:str], nil:bat[:oid], nil:bat[:oid], false:bit, true:bit, nil:lng);         
+	projSemiUB1:bat[:str] := algebra.projectionpath(X_124:bat[:oid], tidU:bat[:oid], bindUB:bat[:str]);
+	
+	C_128:bat[:oid] := algebra.intersect(projSemiRB1:bat[:str], projSB:bat[:str], nil:bat[:oid], nil:bat[:oid], false:bit, false:bit, nil:lng);        
+	X_129:bat[:str] := algebra.projection(C_128:bat[:oid], projSemiRB1:bat[:str]);
+	C_130:bat[:oid] := algebra.intersect(projSemiUB1:bat[:str], X_129:bat[:str], nil:bat[:oid], nil:bat[:oid], false:bit, false:bit, nil:lng);     
+	X_131:bat[:str] := algebra.projection(C_130:bat[:oid], projSemiUB1:bat[:str]);                                                                          
+	(X_132:bat[:oid], C_133:bat[:oid]) := group.groupdone(X_131:bat[:str]);                                                                        
+	distB:bat[:str] := algebra.projection(C_133:bat[:oid], X_131:bat[:str]);
+	
+	tmpB:bat[:str] := bat.new(nil:str);
+	barrier (X_139:oid, X_140:str) := iterator.new(distB:bat[:str]);                                                                                 
+		X_141:bat[:str] := bat.new(nil:str);                                                                                                                 
+		tupleB:bat[:str] := bat.append(X_141:bat[:str], X_140:str, true:bit);
+		
+		X_143:bat[:oid] := algebra.intersect(projSemiRB1:bat[:str], tupleB:bat[:str], nil:bat[:oid], nil:bat[:oid], false:bit, true:bit, nil:lng);       
+		projSemiRC2:bat[:str] := algebra.projectionpath(X_143:bat[:oid], X_116:bat[:oid], tidR:bat[:oid], bindRC:bat[:str]);                  
+		X_152:bat[:oid] := algebra.intersect(projSB:bat[:str], tupleB:bat[:str], nil:bat[:oid], nil:bat[:oid], false:bit, true:bit, nil:lng);         
+		projSemiSC2:bat[:str] := algebra.projectionpath(X_152:bat[:oid], tidS:bat[:oid], bindSC:bat[:str]);                                           
+		X_156:bat[:oid] := algebra.intersect(projSemiUB1:bat[:str], tupleB:bat[:str], nil:bat[:oid], nil:bat[:oid], false:bit, true:bit, nil:lng);       
+		projSemiUD2:bat[:str] := algebra.projectionpath(X_156:bat[:oid], X_124:bat[:oid], tidU:bat[:oid], bindUD:bat[:str]);
+		
+		C_160:bat[:oid] := algebra.intersect(projSemiRC2:bat[:str], projSemiTC1:bat[:str], nil:bat[:oid], nil:bat[:oid], false:bit, false:bit, nil:lng);     
+		X_161:bat[:str] := algebra.projection(C_160:bat[:oid], projSemiRC2:bat[:str]);
+		C_162:bat[:oid] := algebra.intersect(projSemiSC2:bat[:str], X_161:bat[:str], nil:bat[:oid], nil:bat[:oid], false:bit, false:bit, nil:lng);     
+		X_163:bat[:str] := algebra.projection(C_162:bat[:oid], projSemiSC2:bat[:str]);                          
+		(X_164:bat[:oid], C_165:bat[:oid]) := group.groupdone(X_163:bat[:str]);                         
+		distC:bat[:str] := algebra.projection(C_165:bat[:oid], X_163:bat[:str]);
+		
+		tmpC:bat[:str] := bat.new(nil:str);
+		barrier (X_170:oid, X_171:str) := iterator.new(distC:bat[:str]);                                            
+			X_172:bat[:str] := bat.new(nil:str);                                                                                     
+			tupleC:bat[:str] := bat.append(X_172:bat[:str], X_171:str, true:bit);
+			
+			X_175:bat[:oid] := algebra.intersect(projSemiTC1:bat[:str], tupleC:bat[:str], nil:bat[:oid], nil:bat[:oid], false:bit, true:bit, nil:lng);  
+			projSemiTD3:bat[:str] := algebra.projectionpath(X_175:bat[:oid], X_120:bat[:oid], tidT:bat[:oid], bindTD:bat[:str]);          
+			X_179:bat[:oid] := algebra.intersect(projSemiSC2:bat[:str], tupleC:bat[:str], nil:bat[:oid], nil:bat[:oid], false:bit, true:bit, nil:lng);  
+			projSemiSD3:bat[:str] := algebra.projectionpath(X_179:bat[:oid], X_152:bat[:oid], tidS:bat[:oid], bindSD:bat[:str]);
+			
+			C_188:bat[:oid] := algebra.intersect(projSemiTD3:bat[:str], projSemiSD3:bat[:str], nil:bat[:oid], nil:bat[:oid], false:bit, false:bit, nil:lng);
+			X_189:bat[:str] := algebra.projection(C_188:bat[:oid], projSemiTD3:bat[:str]);                                                                     
+			C_190:bat[:oid] := algebra.intersect(projSemiUD2:bat[:str], X_189:bat[:str], nil:bat[:oid], nil:bat[:oid], false:bit, false:bit, nil:lng);
+			X_191:bat[:str] := algebra.projection(C_190:bat[:oid], projSemiUD2:bat[:str]);                                                                     
+			(X_192:bat[:oid], C_193:bat[:oid]) := group.groupdone(X_191:bat[:str]);                                                                  
+			distD:bat[:str] := algebra.projection(C_193:bat[:oid], X_191:bat[:str]);
+			
+			(X_196:bat[:oid], X_197:bat[:oid]) := algebra.crossproduct(distD:bat[:str], tupleC:bat[:str], false:bit);                  
+			X_198:bat[:str] := algebra.projection(X_196:bat[:oid], distD:bat[:str]);                                                                     
+			X_199:bat[:str] := algebra.project(X_197:bat[:oid], X_171:str);
+			d:bat[:str] := bat.append(d:bat[:str], X_198:bat[:str], true:bit);                                                                        
+			tmpC:bat[:str] := bat.append(tmpC:bat[:str], X_199:bat[:str], true:bit);
+			
+			redo (X_170:oid, X_171:str) := iterator.next(distC:bat[:str]);                                                           
+		exit (X_170:oid, X_171:str);
+		
+		X_206:bat[:oid] := algebra.crossproduct(tupleB:bat[:str], tmpC:bat[:str], false:bit);                         
+		X_207:bat[:str] := algebra.project(X_206:bat[:oid], X_140:str);                                                         
+		c:bat[:str] := bat.append(c:bat[:str], tmpC:bat[:str], true:bit);                                                 
+		tmpB:bat[:str] := bat.append(tmpB:bat[:str], X_207:bat[:str], true:bit);
+		
+		redo (X_139:oid, X_140:str) := iterator.next(distB:bat[:str]);                                                           
+	exit (X_139:oid, X_140:str);
+	
+	X_214:bat[:oid] := algebra.crossproduct(tupleA:bat[:str], tmpB:bat[:str], false:bit);                         
+	X_215:bat[:str] := algebra.project(X_214:bat[:oid], X_112:str);                                                         
+	b:bat[:str] := bat.append(b:bat[:str], tmpB:bat[:str], true:bit);                                                 
+	a:bat[:str] := bat.append(a:bat[:str], X_215:bat[:str], true:bit);
+	
+	redo (X_111:oid, X_112:str) := iterator.next(distA:bat[:str]);                                                           
+exit (X_111:oid, X_112:str);                                                                                                                      

@@ -1,0 +1,67 @@
+sqlmvc:int := sql.mvc();
+tidS:bat[:oid] := sql.tid(sqlmvc:int, "sys":str, "s":str);
+bindSB:bat[:str] := sql.bind(sqlmvc:int, "sys":str, "s":str, "b":str, 0:int);
+bindSC:bat[:str] := sql.bind(sqlmvc:int, "sys":str, "s":str, "c":str, 0:int);
+projSB:bat[:str] := algebra.projection(tidS:bat[:oid], bindSB:bat[:str]);
+tidT:bat[:oid] := sql.tid(sqlmvc:int, "sys":str, "t":str);
+bindTA:bat[:str] := sql.bind(sqlmvc:int, "sys":str, "t":str, "a":str, 0:int);
+bindTC:bat[:str] := sql.bind(sqlmvc:int, "sys":str, "t":str, "c":str, 0:int);
+projTC:bat[:str] := algebra.projection(tidT:bat[:oid], bindTC:bat[:str]);
+tidR:bat[:oid] := sql.tid(sqlmvc:int, "sys":str, "r":str);
+bindRA:bat[:str] := sql.bind(sqlmvc:int, "sys":str, "r":str, "a":str, 0:int);
+bindRB:bat[:str] := sql.bind(sqlmvc:int, "sys":str, "r":str, "b":str, 0:int);
+projRB:bat[:str] := algebra.projection(tidR:bat[:oid], bindRB:bat[:str]);
+
+b:bat[:str] := bat.new(nil:str);
+c:bat[:str] := bat.new(nil:str);
+tmpC:bat[:str] := bat.new(nil:str);
+a:bat[:str] := bat.new(nil:str);
+
+distA:bat[:str] := bat.new(nil:str);
+distB:bat[:str] := bat.new(nil:str);
+distC:bat[:str] := bat.new(nil:str);
+ 
+C_58:bat[:oid] := algebra.intersect(projSB:bat[:str], projRB:bat[:str], nil:bat[:oid], nil:bat[:oid], false:bit, false:bit, nil:lng);
+projInterB:bat[:str] := algebra.projection(C_58:bat[:oid], projSB:bat[:str]);
+(X_65:bat[:oid], C_66:bat[:oid]) := group.groupdone(projInterB:bat[:str]);
+distB:bat[:str] := algebra.projection(C_66:bat[:oid], projInterB:bat[:str]);
+
+barrier (X_70:oid, X_71:str) := iterator.new(distB:bat[:str]);
+	X_75:bat[:oid] := algebra.thetaselect(bindSB:bat[:str], tidS:bat[:oid], X_71:str, "==":str);
+	X_77:bat[:str] := algebra.projectionpath(X_75:bat[:oid], tidS:bat[:oid], bindSC:bat[:str]);
+	X_78:bat[:oid] := algebra.thetaselect(bindRB:bat[:str], tidR:bat[:oid], X_71:str, "==":str);
+	X_80:bat[:str] := algebra.projectionpath(X_78:bat[:oid], tidR:bat[:oid], bindRA:bat[:str]);
+	
+	C_81:bat[:oid] := algebra.intersect(X_77:bat[:str], projTC:bat[:str], nil:bat[:oid], nil:bat[:oid], false:bit, false:bit, nil:lng);
+	X_82:bat[:str] := algebra.projection(C_81:bat[:oid], X_77:bat[:str]);
+	(X_83:bat[:oid], C_84:bat[:oid]) := group.groupdone(X_82:bat[:str]);
+	distC:bat[:str] := algebra.projection(C_84:bat[:oid], X_82:bat[:str]);
+
+	tmpC:bat[:str] := bat.new(nil:str);
+	tmpBCand:bat[:oid] := bat.new(nil:oid, C_84:bat[:oid]);
+	barrier (X_90:oid, X_91:str) := iterator.new(distC:bat[:str]);
+		X_94:bat[:oid] := algebra.thetaselect(bindTC:bat[:str], tidT:bat[:oid], X_91:str, "==":str);
+		X_100:bat[:str] := algebra.projectionpath(X_94:bat[:oid], tidT:bat[:oid], bindTA:bat[:str]);
+
+		C_101:bat[:oid] := algebra.intersect(X_100:bat[:str], X_80:bat[:str], nil:bat[:oid], nil:bat[:oid], false:bit, false:bit, nil:lng);
+		X_102:bat[:str] := algebra.projection(C_101:bat[:oid], X_100:bat[:str]);
+		(X_103:bat[:oid], C_104:bat[:oid]) := group.groupdone(X_102:bat[:str]);
+		distA:bat[:str] := algebra.projection(C_104:bat[:oid], X_102:bat[:str]);
+
+		X_110:bat[:str] := algebra.project(C_104:bat[:oid], X_91:str);
+		tmpBCand:bat[:oid] := bat.append(tmpBCand:bat[:oid], C_104:bat[:oid]);
+
+		a:bat[:str] := bat.append(a:bat[:str], distA:bat[:str], true:bit);
+		tmpC:bat[:str] := bat.append(tmpC:bat[:str], X_110:bat[:str], true:bit);
+
+		redo (X_90:oid, X_91:str) := iterator.next(distC:bat[:str]);
+	exit (X_90:oid, X_91:str);
+
+	X_119:bat[:str] := algebra.project(tmpBCand:bat[:oid], X_71:str);
+
+	c:bat[:str] := bat.append(c:bat[:str], tmpC:bat[:str], true:bit);
+	b:bat[:str] := bat.append(b:bat[:str], X_119:bat[:str], true:bit);
+
+	redo (X_70:oid, X_71:str) := iterator.next(distB:bat[:str]);
+exit (X_70:oid, X_71:str);
+
